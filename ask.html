@@ -26,15 +26,9 @@
                         </form>
                     </div>
                     <div class="d-flex align-items-center ms-auto">
-                        <div class="d-inline-block">
-                            <img src="./static/avatar.png" width="50" height="50" class="d-inline-block align-text-top" alt="avatar">
-                        </div>
-                        <div class="d-flex flex-column justify-content-between ms-2">
-                            <div>User</div>
-                            <div>
-                                <a href="./settings.html">Settings</a>
-                                <a href="./logout.html" class = "ms-1">Log out</a>
-                            </div>
+                        <div>
+                            <a href="./login.html">Log in</a>
+                            <a href="./signup.html" class = "ms-1">Register</a>
                         </div>
                     </div>
                 </div>
@@ -42,8 +36,48 @@
         </nav>
 
         <main class="container-fluid container-lg mt-3">
+            <h2>New Question</h2>
+            <p class = "text-danger fs-6">Please specify which tags your question has!</p>
             <div class="row">
-                <div class="col-8"> </div>
+                <div class="col-8">
+                    <div class="row d-flex align-items-center">
+                        <div class = "col-2">
+                            <div>
+                                <p class="text-start fs-5 m-0">Title</p>
+                            </div>
+                        </div>
+                        <div class = "col-10">
+                            <label class = "w-100">
+                                <input type = text class = "form-control" placeholder="Enter your title...">
+                            </label>
+                        </div>
+                    </div>
+                    <div class = "row mt-3 h-75">
+                        <div class = "col-2">
+                            <div>
+                                <p class="text-start fs-5 m-0">Text</p>
+                            </div>
+                        </div>
+                        <div class = "col-10">
+                            <label class = "w-100 h-100">
+                                <textarea type="text" class = "form-control h-100" placeholder="Enter text of your question..."></textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mt-3 d-flex align-items-baseline">
+                        <div class = "col-2">
+                            <div>
+                                <p class="text-start fs-5 m-0">Tags</p>
+                            </div>
+                        </div>
+                        <div class = "col-10">
+                            <label class = "w-100">
+                                <input type = text class = "form-control" placeholder="Enter tags of your question...">
+                            </label>
+                            <button type = button class = "btn btn-outline-primary mt-3">ASK!</button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-4">
                     <h3>Popular Tags</h3>
