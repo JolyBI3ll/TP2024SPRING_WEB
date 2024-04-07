@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex gap-3 align-items-center">
+    <h1>Question {{question.id}}</h1>
+</div>
+<div class="col-8">
+    {% include "layouts/question.html" %}
+    
+    <hr style = "border-top: 5px solid black">
+
+    {% for answer in answers %}
+        {% include "layouts/answers.html" %}
+    {% endfor %}
+
+    <hr style = "border-top: 5px solid black">
+
+    {% include "layouts/pagination.html" with page_obj=answers %}
+
+    <h5 class = "mt-4">Answer the question:</h5>
+    <form action="#" style="margin-bottom: 100px;">
+        <div>
+            <textarea class="form-control mt-1 h-100" rows = 10 placeholder="Enter your answer here..."></textarea>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-outline-primary mt-2">Answer</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

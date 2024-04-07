@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+<h2>New Question</h2>
+<p class = "text-danger fs-6">Please specify which tags your question has!</p>
+<div class="col-8">
+    <div class="row d-flex align-items-center">
+        <div class = "col-2">
+            <div>
+                <p class="text-start fs-5 m-0">Title</p>
+            </div>
+        </div>
+        <div class = "col-10">
+            <label class = "w-100">
+                <input type = text class = "form-control" placeholder="Enter your title...">
+            </label>
+        </div>
+    </div>
+    <div class = "row mt-3 h-75">
+        <div class = "col-2">
+            <div>
+                <p class="text-start fs-5 m-0">Text</p>
+            </div>
+        </div>
+        <div class = "col-10">
+            <label class = "w-100 h-100">
+                <textarea type="text" class = "form-control h-100" placeholder="Enter text of your question..."></textarea>
+            </label>
+        </div>
+    </div>
+    <div class="row mt-3 d-flex align-items-baseline">
+        <div class = "col-2">
+            <div>
+                <p class="text-start fs-5 m-0">Tags</p>
+            </div>
+        </div>
+        <div class = "col-10">
+            <label class = "w-100">
+                <input type = text class = "form-control" placeholder="Enter tags of your question...">
+            </label>
+            <button type = button class = "btn btn-outline-primary mt-3">ASK!</button>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
