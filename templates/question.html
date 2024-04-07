@@ -14,7 +14,7 @@
     <body>
         <nav class="navbar navbar-expand-lg bg-body-secondary ">
             <div class="d-flex container-fluid">
-                <a class="row navbar-brand align-items-center" href="#">
+                <a class="row navbar-brand align-items-center" href="./index.html">
                     <img src="../static/logo.png" width="50" height="50" class="col d-inline-block align-text-top" alt="logo">
                     <div class = "col">AskMe</div>
                 </a>
@@ -28,8 +28,8 @@
                     <div class="d-flex align-items-center ms-auto">
                         <div class="d-flex flex-column justify-content-between ms-2">
                             <div>
-                                <a href="login.html">Log in</a>
-                                <a href="signup.html" class = "ms-1">Register</a>
+                                <a href="./login.html">Log in</a>
+                                <a href="./signup.html" class = "ms-1">Register</a>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,9 @@
                         </div>
                     </article>
 
-                    <article class = "card mb-3 border border-4 border-dark-subtle">
+                    <hr style = "border-top: 5px solid black">
+
+                    <article class = "card mb-3 border">
                         <div class="row g-0">
                             <div class="col-3 p-2">
                                 <div class="border w-100 mb-3" style="height: 100px">
@@ -114,7 +116,7 @@
                         </div>
                     </article>
 
-                    <article class = "card mb-3 border border-4 border-dark-subtle">
+                    <article class = "card mb-3 border">
                         <div class="row g-0">
                             <div class="col-3 p-2">
                                 <div class="border w-100 mb-3" style="height: 100px">
@@ -147,6 +149,8 @@
                         </div>
                     </article>
 
+                    <hr style = "border-top: 5px solid black">
+
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
@@ -161,7 +165,7 @@
 
                     <h5 class = "mt-4">Answer the question:</h5>
                     <textarea class="form-control mt-1 h-25" placeholder="Enter your answer here..."></textarea>
-                    <button type="button" class="btn btn-outline-primary mt-2">Answer</button>
+                    <button type="button" class="btn btn-outline-primary mt-2" style = "margin-bottom: 100px">Answer</button>
 
                 </div>
 
@@ -191,5 +195,10 @@
                 </div>
             </div>
         </main>
+        <footer class="fixed-bottom p-3 bg-light">
+            <div class="container">
+                <span class="text-muted">TechnoPark 2024.</span>
+            </div>
+        </footer>
     </body>
 </html>
