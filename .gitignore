@@ -1,6 +1,5 @@
 # Created by https://www.toptal.com/developers/gitignore/api/django
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
-/.idea
 ### Django ###
 *.log
 *.pot
@@ -22,7 +21,7 @@ media
 
 # C extensions
 *.so
-
+.idea/
 # Distribution / packaging
 .Python
 build/
