@@ -50,24 +50,17 @@
                     <h3>Popular Tags</h3>
                     <div class="row">
                         <div class="col">
-                            <a href = "{% url 'tag' 'Python'%}" class="badge text-bg-primary">Python</a>
-                            <a href = "{% url 'tag' 'Mail.ru'%}" class="badge text-bg-secondary">Mail.ru</a>
-                            <a href = "{% url 'tag' 'Yandex'%}" class="badge text-bg-success">Yandex</a>
-                            <a href = "{% url 'tag' 'Perl'%}" class="badge text-bg-danger">Perl</a>
-                            <a href = "{% url 'tag' 'Rust'%}" class="badge text-bg-warning">Rust</a>
-                            <a href = "{% url 'tag' 'MySQL'%}" class="badge text-bg-info">MySQL</a>
-                            <a href = "{% url 'tag' 'Django'%}" class="badge text-bg-light">Django</a>
-                            <a href = "{% url 'tag' 'Firefox'%}" class="badge text-bg-dark">Firefox</a>
+                            {% for tag in popular_tags %}
+                                <a href = "{% url 'tag' tag.name %}" class="badge text-bg-primary">{{ tag.name }}</a>
+                            {% endfor %}
                         </div>
                     </div>
 
                     <h3 class="mt-5">Best Members</h3>
                     <div>
-                        <a href="{% url 'member' 'Mr. Freeman'%}" class = "d-block">Mr. Freeman</a>
-                        <a href="{% url 'member' 'Dr. House'%}" class = "d-block">Dr. House</a>
-                        <a href="{% url 'member' 'Bender'%}" class = "d-block">Bender</a>
-                        <a href="{% url 'member' 'member 1'%}" class = "d-block">Member 1</a>
-                        <a href="{% url 'member' 'member 2'%}" class = "d-block">Member 2</a>
+                        {% for best_member in best_members %}
+                            <a href="{% url 'member' best_member.nickname %}" class = "d-block">{{ best_member.nickname }}</a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

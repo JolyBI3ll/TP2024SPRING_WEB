@@ -23,15 +23,19 @@ def hot(request):
 
 
 def question(request, question_id):
-    question = Question.objects.get(pk=question_id)
-    answers = Answer.objects.get_by_question(question_id)
-    ans_obj = paginate(request, answers)
+    question = Question.objects.get_one_question(question_id)
+    ans_obj = paginate(request, Answer.objects.get_by_question(question_id))
     return render(request, "question.html", {"question": question, "answers": ans_obj})
 
 
 def tag(request, tag):
-    page_obj = paginate(request, Question.objects.get_tag(tag))
+    page_obj = paginate(request, Question.objects.get_by_tag(tag))
     return render(request, "tag.html", {"questions": page_obj, "tag": tag})
+
+
+def member(request, name):
+    member = Profile.objects.get_one_member(name)
+    return render(request, "member.html", {"member": member})
 
 
 def login(request):
@@ -49,8 +53,3 @@ def ask(request):
 def settings(request):
     user = Profile.objects.get(user__is_active=True)
     return render(request, "settings.html", {"user": user})
-
-
-def member(request, name):
-    member = Profile.objects.get(user__username=name)
-    return render(request, "member.html", {"member": member})

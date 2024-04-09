@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="row mt-3">
-    <h1>{{ member.name }} profile</h1>
+    <h1>{{ member.nickname }} profile</h1>
     <!--Форма--> 
     <div class="col-8 mt-3">
         <form style="margin-bottom: 50px;">
@@ -17,7 +16,7 @@
                     </div>
                     <div class = "col-9">
                         <label>
-                            <input type = text class = "form-control w-100" value = "{{ member.name }}">
+                            <input type = text class = "form-control w-100" value = "{{ member.nickname }}">
                         </label>
                     </div>
                 </div>
@@ -29,12 +28,35 @@
                     </div>
                     <div class = "col-9">
                         <label>
-                            <input type = text class = "form-control w-100" value = "{{ member.email }}">
+                            <input type = text class = "form-control w-100" value = "{{ member.user.email }}">
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-3 d-flex align-items-center">
+                    <div class = "col-3">
+                        <div>
+                            <p class="text-start fs-5 m-0">The number of likes on the questions</p>
+                        </div>
+                    </div>
+                    <div class = "col-9">
+                        <label>
+                            <input type = text class = "form-control w-100" value = "{{ member.likes_count_question }}">
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-3 d-flex align-items-center">
+                    <div class = "col-3">
+                        <div>
+                            <p class="text-start fs-5 m-0">The number of likes on the answers</p>
+                        </div>
+                    </div>
+                    <div class = "col-9">
+                        <label>
+                            <input type = text class = "form-control w-100" value = "{{ member.likes_count_answer }}">
                         </label>
                     </div>
                 </div>
             </fieldset>
         </form>
     </div>
-    
-    {% endblock content %}
+{% endblock content %}
