@@ -104,7 +104,7 @@ class QuestionLike(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='d')
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='n')
 
     class Meta:
         unique_together = ('user', 'question')  # Ограничение на уникальность пары пользователь-вопрос
@@ -119,7 +119,7 @@ class AnswerLike(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='d')
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10, default='n')
 
     class Meta:
         unique_together = ('user', 'answer')  # Ограничение на уникальность пары пользователь-ответ

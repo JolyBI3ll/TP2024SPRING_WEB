@@ -49,7 +49,7 @@ class Command(BaseCommand):
         Answer.objects.bulk_create(answers, batch_size=10000)
 
         # Создание лайков вопросов
-        LIKE_STATUS_CHOICE = ['l', 'd']
+        LIKE_STATUS_CHOICE = ['l', 'd', 'n']
         QUESTION_LIKE = []
         used_pairs = set()
         i = 0
