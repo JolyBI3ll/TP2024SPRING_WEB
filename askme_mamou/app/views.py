@@ -51,5 +51,4 @@ def ask(request):
 
 
 def settings(request):
-    user = Profile.objects.get(user__is_active=True)
-    return render(request, "settings.html", {"user": user})
+    return render(request, "settings.html")

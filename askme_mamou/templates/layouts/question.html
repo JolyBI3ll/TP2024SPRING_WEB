@@ -7,7 +7,7 @@
             </div>
             <div class="input-group flex-nowrap">
                 <label>
-                    <input type="number" value="{{ question.like_count }}" class="form-control" />
+                    <input type="number" value="{{ question.rating }}" class="form-control" />
                 </label>
             </div>
         </div>
@@ -20,7 +20,7 @@
                     {{ question.text }}
                 </p>
                 <div class="row">
-                    <a class="col-4" href="{% url 'question' question.id %}">answer {{ question.answer_count }}</a>
+                    <a class="col-4" href="{% url 'question' question.id %}">answer ({{ question.num_answers }})</a>
                     <div class="col-8">
                         <span>Tags:</span>
                         {% for tag in question.tags.all %}

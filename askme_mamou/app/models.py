@@ -1,86 +1,52 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Sum, Case, When, IntegerField
-from django.shortcuts import get_object_or_404
-
-
-def likes_count_question(model):
-    qs_with_like_count = model.objects.annotate(
-        like_count=Sum(
-            Case(
-                When(questionlike__status='l', then=1),
-                When(questionlike__status='d', then=-1),
-                default=0,
-                output_field=IntegerField()
-            )
-        )
-    )
-    return qs_with_like_count
-
-
-def likes_count_answer(model):
-    qs_with_like_count = model.objects.annotate(
-        like_count=Sum(
-            Case(
-                When(answerlike__status='l', then=1),
-                When(answerlike__status='d', then=-1),
-                default=0,
-                output_field=IntegerField()
-            )
-        )
-    )
-    return qs_with_like_count
+from django.http import Http404
 
 
 # Model Manager для вопросов
 class QuestionManager(models.Manager):
     def get_hot(self):
-        hot_questions = likes_count_question(Question).order_by('-like_count')
-        return hot_questions
+        return self.all().order_by('-rating')
 
     def get_new(self):
-        new_questions = likes_count_question(Question).order_by('created_at')
-        return new_questions
+        return self.all().order_by('created_at')
 
     def get_by_tag(self, tag_name):
         try:
-            question_tags = likes_count_question(Question).filter(tags__name=tag_name)
-        except Tag.DoesNotExist:
-            get_object_or_404(Tag, tags__name=tag_name)
-        return question_tags
+            return self.filter(tags__name=tag_name)
+        except Question.DoesNotExist:
+            return Http404("Question not found!")
 
     def get_one_question(self, question_id):
         try:
-            question = likes_count_question(Question).get(id=question_id)
+            return self.all().get(id=question_id)
         except Question.DoesNotExist:
-            get_object_or_404(Question, id=question_id)
-        return question
+            return Http404("Question not found!")
 
 
 class AnswerManager(models.Manager):
     def get_by_question(self, question_id):
         try:
-            answers = likes_count_answer(Answer).filter(question__id=question_id).order_by('status')
-        except Answer.DoesNotExist:
-            get_object_or_404(Answer, question__id=question_id)
-        return answers
+            return self.all().filter(question__id=question_id).order_by('status')
+        except Question.DoesNotExist:
+            return Http404("Question does not exist")
 
 
 class ProfileManager(models.Manager):
     def get_one_member(self, member_name):
         try:
-            profile = self.annotate(likes_count_question=models.Count('questionlike', distinct=True)).annotate(
-                likes_count_answer=models.Count('answerlike', distinct=True)).get(nickname=member_name)
+            return self.get(nickname=member_name)
         except Profile.DoesNotExist:
-            return get_object_or_404(Profile, nickname=member_name)
-
-        return profile
+            raise Http404("Profile is not found!")
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    avatar = models.ImageField(upload_to='uploads/', default='img/avatar.png', null=True, blank=True)
     nickname = models.CharField(max_length=255, blank=True)
+    activity = models.IntegerField(default=0)
+    likes_count_answer = models.IntegerField(default=0)
+    likes_count_question = models.IntegerField(default=0)
 
     objects = ProfileManager()
 
@@ -92,18 +58,23 @@ class Tag(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    num_questions = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
 
 class Question(models.Model):
+    STATUS_CHOICES = (('S', 'Solved'), ('N', 'Not Solved'))
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
     title = models.CharField(max_length=255)
     text = models.TextField()
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    rating = models.IntegerField(default=0)
+    num_answers = models.IntegerField(default=0)
 
     objects = QuestionManager()  # Использование собственного менеджера моделей
 
@@ -119,6 +90,7 @@ class Answer(models.Model):
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='nm')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    rating = models.IntegerField(default=0)
 
     objects = AnswerManager()
 
@@ -128,7 +100,7 @@ class Answer(models.Model):
 
 # Модель для лайков вопросов
 class QuestionLike(models.Model):
-    STATUS_CHOICES = [("l", "Like"), ("d", "Dislike")]
+    STATUS_CHOICES = [("l", "Like"), ("d", "Dislike"), ("n", "Not liked")]
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -143,7 +115,7 @@ class QuestionLike(models.Model):
 
 # Модель для лайков ответов
 class AnswerLike(models.Model):
-    STATUS_CHOICES = [("l", "Like"), ("d", "Dislike")]
+    STATUS_CHOICES = [("l", "Like"), ("d", "Dislike"), ("n", "Not liked")]
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
