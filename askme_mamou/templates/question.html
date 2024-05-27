@@ -2,53 +2,56 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
-    <div class = "col-8">
-        <form method = 'post' action = "{% url 'question' question.id %}">
-            <article class = "card mb-3 border-0">
-                <div class="row g-0">
-                    <div class = "col-2 me-4 mt-3">
-                        <div class="border mb-3" style = "height: 150px; width: 150px;">
-                            <img src="{% static 'img/avatar.png' %}" class="img-fluid rounded-start" alt="">
-                        </div>
-                        <div class = "input-group flex-nowrap w-50">
-                            <label>
-                                <input type="number" value="{{question.rating}}" class="form-control" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class = "col">
-                        <div class="card-body">
-                            <h3 class = "card-title">
-                                {{question.title}}
-                            </h3>
-                            <p class="card-text">{{question.text}}</p>
-                        </div>
-                        <div class = "row p-3 mt-2">
-                            <div class = "col-8">
-                                <span>Tags: </span>
-                                {% for tag in question.tags.all %}
-                                    <a href = "{% url "tag" tag%}">{{tag}}</a>
-                                {% endfor%}
+                <div class = "col-8">
+                    <form method = 'post' action = "{% url 'question' question.id %}">
+                    <article class = "card mb-3 border-0">
+                        <div class="row g-0">
+                            <div class = "col-2 me-4 mt-3">
+                                <div class="border mb-3" style = "height: 150px; width: 150px;">
+                                    <img src="{% static '/img/avatar.png' %}" class="img-fluid rounded-start"  alt="">
+                                </div>
+                                <div class="question-like-control input-group flex-nowrap w-100" data-question-id="{{ question.id }}">
+                                    <button class="like-btn btn btn-outline-success btn-sm">Like</button>
+                                    <span class="form-control like-counter" style="white-space: nowrap; text-align: center;">{{ question.rating }}</span>
+                                    <button class="dislike-btn btn btn-outline-danger btn-sm">Dislike</button>
+                                </div>
+                            </div>
+                            <div class = "col">
+                                <div class="card-body">
+                                    <h3 class = "card-title">
+                                        {{question.title}}
+                                    </h3>
+                                    <p class="card-text">{{question.text}}</p>
+                                </div>
+                                <div class = "row p-3 mt-2">
+                                     <div class = "col-8">
+                                         <span>Tags: </span>
+                                         {% for tag in question.tags.all %}
+                                            <a href = "{% url "tag" tag%}">{{tag}}</a>
+                                         {% endfor%}
+                                     </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
+
+                    <h3>Answers:</h3>
+
+                    {% if answers %}
+                        {% for answer in answers %}
+                            {% include "layouts/answers.html" with item=answer %}
+                        {% endfor %}
+
+                        {% include "layouts/pagination.html" with page_obj=answers %}
+                    {% else %}
+                        No answers yet
+                    {% endif %}
+                    <h5 class = "mt-4">Answer the question:</h5>
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Answer</button>
+                    </form>
                 </div>
-            </article>
-            <h3>Answers:</h3>
-            <hr>
-            {% if answers %}
-                {% for answer in answers %}
-                    {% include "layouts/answers.html" with item=answer %}
-                {% endfor %}
-                <hr>
-                {% include "layouts/pagination.html" with page_obj=answers %}
-            {% else %}
-                No answers yet
-            {% endif %}
-            <h5 class = "mt-4">Answer the question:</h5>
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <button type="submit" class="btn btn-outline-primary mt-2 mb-5">Answer</button>
-        </form>
-    </div>
+                <script src="{% static "js/question-like.js" %}"></script>
+                <script src="{% static "js/answer.js" %}"></script>
 {% endblock %}

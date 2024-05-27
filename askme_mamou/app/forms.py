@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import *
 from django.forms import TextInput, Textarea, FileInput, PasswordInput
-
+import re
 
 class LoginForm(forms.ModelForm):
     class Meta:
@@ -21,36 +21,52 @@ class LoginForm(forms.ModelForm):
         pass
 
 
-class RegisterForm(forms.ModelForm):
-    email = forms.EmailField()
+class RegistrationForm(forms.ModelForm):
+    nickname = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
+    avatar = forms.ImageField(required=False)
 
     class Meta:
-        model = Profile
-        fields = ['nickname', 'avatar']
+        model = User
+        fields = ("username", "email", "password")
 
-    def clean(self):
-        super().clean()
-        if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
-            self.add_error('password', '')
-            self.add_error('confirm_password', '')
-            raise ValidationError('Passwords do not match!')
-        if User.objects.filter(username=self.cleaned_data['nickname']).exists():
-            self.add_error('nickname', 'This username is already in use')
-        return self.cleaned_data
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("This username is already taken. Please choose another.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already registered.")
+        return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        self.cleaned_data['validated_password'] = password
+        if len(password) < 8 or len(password) > 12:
+            raise ValidationError("Password must be between 8 and 12 characters.")
+        if not re.match(r'^[a-zA-Z0-9]+$', password):
+            raise ValidationError("Password must contain only latin letters and numbers.")
+        return password
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get("validated_password")
+        confirm_password = self.cleaned_data.get("confirm_password")
+        if password != confirm_password:
+            raise ValidationError("Passwords do not match.")
+        return confirm_password
+
+    def clean_avatar(self):
+        return self.cleaned_data.get("avatar")
 
     def save(self, commit=True):
-        data = self.cleaned_data
-
-        user = User.objects.create_user(data['nickname'], data['email'], data['password'])
-        if data['avatar'] is not None:
-            profile = Profile.objects.create(user=user, nickname=data['nickname'], avatar=data['avatar'])
-        else:
-            profile = Profile.objects.create(user=user, nickname=data['nickname'])
-
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
         if commit:
-            profile.save()
+            user.save()
         return user
 
 
@@ -96,7 +112,6 @@ class SettingsForm(forms.ModelForm):
             profile.save()
 
         return self._user
-
 
 
 class AskForm(forms.ModelForm):
@@ -173,4 +188,3 @@ class AnswerForm(forms.ModelForm):
         question.save()
 
         return new_answer
-

@@ -2,8 +2,6 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
-
-<div class="row">
     <h1>Settings: {{form.username.value}} </h1>
     <div class="col-8 mt-3">
         <form style="margin-bottom: 50px;" method = "post" action = "{% url "settings" %}">
@@ -18,5 +16,4 @@
             </div>
         </form>
     </div>
-
 {% endblock content %}
