@@ -26,22 +26,29 @@
                             <a href = "{% url 'ask' %}" class="btn btn-outline-success" type="submit">ASK!</a>
                         </form>
                     </div>
-                    <div class="d-flex align-items-center ms-auto">
-                        <div class="d-inline-block">
-                            <img src="{% static 'img/avatar.png' %}" width="50" height="50" class="d-inline-block align-text-top" alt="avatar">
+                    {% if user.is_authenticated %}
+                    <div class = "d-flex justify-content-between gap-3">
+                        <div>
+                            <img src="{% static 'img/avatar.png' %}" width = "50" height = "50" alt="">
                         </div>
-                        <div class="d-flex flex-column justify-content-between ms-2">
-                            <div>Vasiliy Pupkin</div>
+                        <div class = "d-flex flex-column justify-content-between">
+                            <div>{{ user.username }}</div>
                             <div>
-                                <a href="{% url 'settings' %}">Settings</a>
-                                <a href="#" class = "ms-1">Log out</a>
+                                {% csrf_token %}
+                                <a href = "{% url "settings" %}">Settings</a>
+                                <a href = "{% url "logout" %}?next={{ request.path }}">Log out</a>
                             </div>
                         </div>
                     </div>
+                    {% else %}
+                        <div class = "d-flex justify-content-between gap-3">
+                              <a href = "{% url "login" %}">Log in</a>
+                              <a href = "{% url "signup" %}">Register</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </nav>
-
         <main class="container-fluid container-lg mt-3">
             <div class="row">
                 {% block content %}

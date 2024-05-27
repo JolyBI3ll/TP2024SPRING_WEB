@@ -9,7 +9,7 @@ class QuestionManager(models.Manager):
         return self.all().order_by('-rating')
 
     def get_new(self):
-        return self.all().order_by('created_at')
+        return self.all().order_by('-created_at')
 
     def get_by_tag(self, tag_name):
         try:
@@ -54,11 +54,24 @@ class Profile(models.Model):
         return self.nickname
 
 
+class TagManager(models.Manager):
+    def get_popular(self):
+        pass
+
+    def increase_question_count(self, tag):
+        same_tag = self.get(name=tag)
+        same_tag.num_questions += 1
+        same_tag.save()
+        return same_tag
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     num_questions = models.IntegerField(default=0)
+
+    objects = TagManager()
 
     def __str__(self):
         return self.name

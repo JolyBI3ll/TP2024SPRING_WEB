@@ -1,75 +1,22 @@
 {% extends "layouts/base.html" %}
 {% load static %}
-
+{% load django_bootstrap5 %}
 {% block content %}
-<div class="d-flex gap-3 align-items-center">
-    <h1>Settings: Vasiliy Pupkin</h1>
-</div>
-<div class="col-8">
+
+<div class="row">
+    <h1>Settings: {{form.username.value}} </h1>
     <div class="col-8 mt-3">
-        <form style="margin-bottom: 50px;">
-            <!--Login--> 
-            <div class="row d-flex align-items-center">
-                <div class = "col-3">
-                    <div>
-                        <p class="text-start fs-5 m-0">Login</p>
-                    </div>
-                </div>
-                <div class = "col-9">
-                    <label>
-                        <input type = text class = "form-control w-100" placeholder="Enter your login..." value = "VasPup0908">
-                    </label>
-                </div>
-            </div>
-            <div class="row mt-3 d-flex align-items-center">
-                <div class = "col-3">
-                    <div>
-                        <p class="text-start fs-5 m-0">Email</p>
-                    </div>
-                </div>
-                <div class = "col-9">
-                    <label>
-                        <input type = text class = "form-control w-100" placeholder="Enter your email..." value = "VasPup0908@gmail.com">
-                    </label>
-                </div>
-            </div>
-            <div class="row mt-3 d-flex align-items-center mb-3">
-                <div class = "col-3">
-                    <div>
-                        <p class="text-start fs-5 m-0">NickName</p>
-                    </div>
-                </div>
-                <div class = "col-9">
-                    <label>
-                        <input type = text class = "form-control w-100" placeholder="Enter your nickname..." value = "Vasiliy Pupkin">
-                    </label>
-                </div>
-            </div>
-            <!--Avatar--> 
-            <div class="row mb-3">
-                <div class="col-3"> 
-                    <p class="text-start fs-5 m-0">Avatar</p>
-                </div>
-                <div class="col-9">
-                    <div class="row">
-                        <div class="col-auto">
-                            <img class="rounded-circle border" src="{% static '/img/avatar.png' %}" height="150" width="150">
-                        </div>
-                    </div>
-                    <div class="input-group mt-3">
-                        <input type="file" class="form-control">
-                        <label class="input-group-text" for="inputGroupFile02">Choose</label>
-                    </div>                            
-                </div>
-            </div>
+        <form style="margin-bottom: 50px;" method = "post" action = "{% url "settings" %}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
 
             <div class="row">
-                <div class="col-3"></div>
                 <div class="col">
-                    <button class="btn btn-outline-primary" type="submit">Save</button>
+                    <hr>
+                    <button type="submit" class="btn btn-outline-primary mt-2 w-25">Save</button>
                 </div>
             </div>
         </form>
     </div>
-</div>
+
 {% endblock content %}
