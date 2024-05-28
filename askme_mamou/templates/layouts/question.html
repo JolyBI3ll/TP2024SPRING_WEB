@@ -1,31 +1,37 @@
 {% load static %}
-<article class = "card mb-3">
+<article class="card mb-3">
     <div class="row g-0">
-        <div class = "col-3 p-3">
+        <div class="col-3 p-3">
             <div class="border w-100 mb-3">
-                <img src="{% static 'img/avatar.png' %}" class="img-fluid rounded-start"  alt="">
+                {% if question.author.avatar != '' %}
+                    <img src="{% static question.author.avatar %}" class="img-fluid rounded mx-auto d-block"
+                         alt="avatar">
+                {% else %}
+                    <img src="{% static '/img/avatar.png' %}" class="img-fluid rounded mx-auto d-block" alt="avatar"/>
+                {% endif %}
             </div>
             <div class="question-like-control input-group flex-nowrap" data-question-id="{{ question.id }}">
                 <button class="like-btn btn btn-outline-success btn-sm">Like</button>
-                <span class="form-control like-counter" style="white-space: nowrap; text-align: center;">{{ question.rating }}</span>
+                <span class="form-control like-counter"
+                      style="white-space: nowrap; text-align: center;">{{ question.rating }}</span>
                 <button class="dislike-btn btn btn-outline-danger btn-sm">Dislike</button>
             </div>
         </div>
-        <div class = "col">
+        <div class="col">
             <div class="card-body">
-                <h5 class = "card-title">
-                    <a href = "{% url "question" question.id %}">{{question.title}}</a>
+                <h5 class="card-title">
+                    <a href="{% url "question" question.id %}">{{ question.title }}</a>
                 </h5>
-                <p class="card-text">{{question.text}}</p>
+                <p class="card-text">{{ question.text }}</p>
             </div>
-            <div class = "row p-3 mt-4">
-                 <a class = "col-4" href = "{% url "question" question.id %}">answers({{question.num_answers}})</a>
-                 <div class = "col-8">
+            <div class="row p-3 mt-4">
+                <a class="col-4" href="{% url "question" question.id %}">answers({{ question.num_answers }})</a>
+                <div class="col-8">
                     <span>Tags</span>
                     {% for tag in question.tags.all %}
-                        <a href = "{% url "tag" tag%}">{{tag}}</a>
-                    {% endfor%}
-                 </div>
+                        <a href="{% url "tag" tag %}">{{ tag }}</a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('app', '0001_initial'),
     ]
@@ -13,11 +12,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='answerlike',
             name='status',
-            field=models.CharField(choices=[('l', 'Like'), ('d', 'Dislike'), ('n', 'Not liked')], default='d', max_length=10),
+            field=models.CharField(choices=[('l', 'Like'), ('d', 'Dislike'), ('n', 'Not liked')], default='d',
+                                   max_length=10),
         ),
         migrations.AlterField(
             model_name='questionlike',
             name='status',
-            field=models.CharField(choices=[('l', 'Like'), ('d', 'Dislike'), ('n', 'Not liked')], default='d', max_length=10),
+            field=models.CharField(choices=[('l', 'Like'), ('d', 'Dislike'), ('n', 'Not liked')], default='d',
+                                   max_length=10),
         ),
     ]

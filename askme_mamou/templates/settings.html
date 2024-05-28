@@ -2,12 +2,12 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
-    <h1>Settings: {{form.username.value}} </h1>
+    <h1>Settings: {{ form.username.value }} </h1>
     <div class="col-8 mt-3">
-        <form style="margin-bottom: 50px;" method = "post" action = "{% url "settings" %}">
+        <form style="margin-bottom: 50px;" method="post" action="{% url "settings" %}" class="form"
+              enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form %}
-
             <div class="row">
                 <div class="col">
                     <hr>

@@ -42,7 +42,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='uploads/', default='img/avatar.png', null=True, blank=True)
+    avatar = models.ImageField(upload_to='', default='img/avatar.png', null=True, blank=True)
     nickname = models.CharField(max_length=255, blank=True)
     activity = models.IntegerField(default=0)
     likes_count_answer = models.IntegerField(default=0)

@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -33,7 +32,8 @@ class Migration(migrations.Migration):
                 ('activity', models.IntegerField(default=0)),
                 ('likes_count_answer', models.IntegerField(default=0)),
                 ('likes_count_question', models.IntegerField(default=0)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                'user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -56,7 +56,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField()),
-                ('status', models.CharField(choices=[('m', 'Marked as right'), ('nm', 'Not marked')], default='nm', max_length=2)),
+                ('status', models.CharField(choices=[('m', 'Marked as right'), ('nm', 'Not marked')], default='nm',
+                                            max_length=2)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('rating', models.IntegerField(default=0)),

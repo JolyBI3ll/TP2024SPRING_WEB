@@ -38,10 +38,10 @@ function main() {
             })
 
             fetch(request)
-            .then((response) => response.json())
-            .then((data) => {
-                count.innerHTML = data.rating
-            })
+                .then((response) => response.json())
+                .then((data) => {
+                    count.innerHTML = data.rating
+                })
         }
 
         likeButton.onclick = () => likeOrDislike(true)

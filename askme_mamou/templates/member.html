@@ -3,56 +3,56 @@
 
 {% block content %}
     <h1>{{ member.nickname }} profile</h1>
-    <!--Форма--> 
+    <!--Форма-->
     <div class="col-8 mt-3">
         <form style="margin-bottom: 50px;">
             <fieldset disabled>
-                <!--Login--> 
+                <!--Login-->
                 <div class="row d-flex align-items-center">
-                    <div class = "col-4">
+                    <div class="col-4">
                         <div>
                             <p class="text-start fs-5 m-0">NickName</p>
                         </div>
                     </div>
-                    <div class = "col-8">
+                    <div class="col-8">
                         <label>
-                            <input type = text class = "form-control w-100" value = "{{ member.nickname }}">
+                            <input type=text class="form-control w-100" value="{{ member.nickname }}">
                         </label>
                     </div>
                 </div>
                 <div class="row mt-3 d-flex align-items-center">
-                    <div class = "col-4">
+                    <div class="col-4">
                         <div>
                             <p class="text-start fs-5 m-0">Email</p>
                         </div>
                     </div>
-                    <div class = "col-8">
+                    <div class="col-8">
                         <label>
-                            <input type = text class = "form-control w-100" value = "{{ member.user.email }}">
+                            <input type=text class="form-control w-100" value="{{ member.user.email }}">
                         </label>
                     </div>
                 </div>
                 <div class="row mt-3 d-flex align-items-center">
-                    <div class = "col-4">
+                    <div class="col-4">
                         <div>
                             <p class="text-start fs-5 m-0">Likes on the questions</p>
                         </div>
                     </div>
-                    <div class = "col-8">
+                    <div class="col-8">
                         <label>
-                            <input type = text class = "form-control w-100" value = "{{ member.likes_count_question }}">
+                            <input type=text class="form-control w-100" value="{{ member.likes_count_question }}">
                         </label>
                     </div>
                 </div>
                 <div class="row mt-3 d-flex align-items-center">
-                    <div class = "col-4">
+                    <div class="col-4">
                         <div>
                             <p class="text-start fs-5 m-0">Likes on the answers</p>
                         </div>
                     </div>
-                    <div class = "col-8">
+                    <div class="col-8">
                         <label>
-                            <input type = text class = "form-control w-100" value = "{{ member.likes_count_answer }}">
+                            <input type=text class="form-control w-100" value="{{ member.likes_count_answer }}">
                         </label>
                     </div>
                 </div>
@@ -63,7 +63,14 @@
                     <div class="col-8">
                         <div class="row">
                             <div class="col-auto">
-                                <img class="rounded-circle border" src="{% static '/img/avatar.png' %}" height="150" width="150" alt="...">
+                                {% if member.avatar != '' %}
+                                    <img class="rounded-circle border" src="{% static member.avatar %}" height="150"
+                                     width="150" alt="...">
+                                    {% else %}
+                                    <img class="rounded-circle border" src="{% static 'img/avatar.png' %}" height="150"
+                                     width="150" alt="...">
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>

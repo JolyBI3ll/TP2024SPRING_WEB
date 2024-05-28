@@ -105,7 +105,8 @@ class Command(BaseCommand):
             profile.likes_count_answer = profile.answerlike_set.count()
             profile.activity = profile.likes_count_question + profile.likes_count_answer
             profiles_to_update.append(profile)
-        Profile.objects.bulk_update(profiles_to_update, ['likes_count_answer', 'likes_count_question', 'activity'], batch_size=10000)
+        Profile.objects.bulk_update(profiles_to_update, ['likes_count_answer', 'likes_count_question', 'activity'],
+                                    batch_size=10000)
 
         # Вычисление полей rating в модели Answer
         answers_to_update = []

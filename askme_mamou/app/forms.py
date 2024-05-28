@@ -4,6 +4,7 @@ from .models import *
 from django.forms import TextInput, Textarea, FileInput, PasswordInput
 import re
 
+
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User

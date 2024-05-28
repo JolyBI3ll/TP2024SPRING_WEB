@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import *
+from .models import *
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib import auth
@@ -110,7 +111,7 @@ def signup(request):
                 if not avatar:
                     avatar = 'avatar.png'
                 user = form.save()
-                user_profile = Profile.objects.create(user=user, nickname=nickname, avatar=avatar)
+                Profile.objects.create(user=user, nickname=nickname, avatar=avatar)
 
                 user = authenticate(username=username, password=password)
                 if user is not None:
@@ -211,7 +212,7 @@ def like_answer(request):
     is_liked_already = AnswerLike.objects.filter(answer=answer, user=profile)
     print(like_status)
     if is_liked_already.exists():
-        if is_liked_already.first().status == like_status:
+        if int(is_liked_already.first().status) == like_status:
             answer.rating -= like_status
             is_liked_already.first().delete()
         else:
@@ -229,7 +230,7 @@ def like_answer(request):
 
 
 @csrf_protect
-@require_POST
+@require_http_methods(["POST"])
 def mark_answer(request):
     try:
         body = json.loads(request.body)
@@ -247,4 +248,4 @@ def mark_answer(request):
     else:
         answer.status = 'mn'
     answer.save()
-    return JsonResponse('Marked', status=200)
+    return JsonResponse('Marked', status=200, safe=False)
