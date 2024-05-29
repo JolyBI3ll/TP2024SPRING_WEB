@@ -7,7 +7,7 @@
                     <img src="{% static question.author.avatar %}" class="img-fluid rounded mx-auto d-block"
                          alt="avatar">
                 {% else %}
-                    <img src="{% static '/img/avatar.png' %}" class="img-fluid rounded mx-auto d-block" alt="avatar"/>
+                    <img src="{% static '/img/../../static/img/avatar.png' %}" class="img-fluid rounded mx-auto d-block" alt="avatar"/>
                 {% endif %}
             </div>
             <div class="question-like-control input-group flex-nowrap" data-question-id="{{ question.id }}">

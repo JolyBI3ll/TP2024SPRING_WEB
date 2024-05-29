@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  nginx:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./askme_mamou/static:/usr/share/nginx/html/static
+      - ./askme_mamou/uploads:/usr/share/nginx/html/uploads

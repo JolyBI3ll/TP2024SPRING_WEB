@@ -6,7 +6,7 @@
                 {% if answer.author.avatar != '' %}
                     <img src="{% static answer.author.avatar %}" class="img-fluid rounded mx-auto d-block" alt="avatar">
                 {% else %}
-                    <img src="{% static '/img/avatar.png' %}" class="img-fluid rounded mx-auto d-block" alt="avatar"/>
+                    <img src="{% static '/img/../../static/img/avatar.png' %}" class="img-fluid rounded mx-auto d-block" alt="avatar"/>
                 {% endif %}
             </div>
             <div class="answer-like-control input-group flex-nowrap" data-answer-id="{{ item.id }}">
